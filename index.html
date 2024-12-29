@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year!</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(to bottom, #2c3e50, #fd746c);
+            text-align: center;
+            color: #f9f9f9;
+            overflow: hidden;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 2s;
+        }
+
+        h1 {
+            font-size: 4em;
+            color: #f39c12;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            animation: floatTitle 6s ease-in-out infinite;
+        }
+
+        p {
+            font-size: 1.4em;
+            margin: 15px 0;
+        }
+
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            max-width: 600px;
+            line-height: 1.6;
+            backdrop-filter: blur(5px);
+            animation: floatMessage 4s ease-in-out infinite;
+        }
+
+        .gallery {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .gallery img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border: 2px solid #ff3d0036;
+            border-radius: 13px;
+            box-shadow: 4px 7px 7px 0px #00000042;
+            cursor: pointer;
+            margin: 10px;
+            opacity: 0;
+            animation: zoomRotate 1s ease-out forwards;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1) rotate(10deg);
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes zoomRotate {
+            0% {
+                transform: scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatTitle {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes floatMessage {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 1em;
+            color: #f9f9f9;
+            opacity: 0.8;
+        }
+
+    </style>
+</head>
+<body>
+     <!-- Background Music -->
+<audio controls autoplay loop>
+    <source src="audio4.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+    <canvas class="fireworks"></canvas>
+    <div class="container">
+        <h1>🎉 Happy New Year! 🎉</h1>
+        <div class="message">
+            <p>Happy New Year, [MARIYAM SULTANA]! 🎉 As we step into 2025, I just want you to know how much you mean to me. You’re not just my best friend; you’re my partner in crime, my secret keeper, and my biggest supporter. This year, I hope all your dreams come true and that you find endless reasons to smile. Remember, no matter what happens, I’ll always be here to laugh with you, cry with you, and make unforgettable memories together. Let’s make 2025 a year full of happiness, adventures, and success🖤.
+
+                </p>
+            
+        </div>
+        <div class="gallery">
+            <img src="html (2).png" alt="Image 1">
+            <img src="html (3).png" alt="Image 2">
+            <img src="html (6).png" alt="Image 3">
+            <img src="html8.png" alt="Image 4">
+            <img src="html7.png" alt="Image 5">
+        </div>
+    </div>
+    <div class="footer">Designed By Sk Mosiur Rahaman</div>
+
+    <script>
+        const canvas = document.querySelector('.fireworks');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.alpha = 1;
+                this.size = Math.random() * 4 + 1;
+                this.speedX = Math.random() * 4 - 2;
+                this.speedY = Math.random() * 4 - 2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.alpha -= 0.01;
+            }
+
+            draw() {
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function createParticles(x, y) {
+            const colors = ['#f39c12', '#e74c3c', '#9b59b6', '#3498db'];
+            for (let i = 0; i < 40; i++) {
+                particles.push(new Particle(x, y, colors[Math.floor(Math.random() * colors.length)]));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((particle, index) => {
+                if (particle.alpha <= 0) {
+                    particles.splice(index, 1);
+                } else {
+                    particle.update();
+                    particle.draw();
+                }
+            });
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('click', (e) => {
+            createParticles(e.clientX, e.clientY);
+        });
+
+        animate();
+    </script>
+</body>
+</html>
